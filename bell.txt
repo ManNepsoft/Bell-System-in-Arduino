@@ -1,0 +1,425 @@
+#include<EEPROM.h>
+#include<Wire.h>
+#include<Timelib.h>
+#include<DS1307RTC.h>
+#include<LiquidCrystal.h>
+	LiquidCrystal lcd(9,8,7,6,5,4);
+		int i=0;
+		int H=0;
+		int M=0;
+		int S=0;
+		int setting_value;
+		const int bell=10;
+		const int P = A3;
+		const int N = A2;
+		const int setting_address = 0;
+		const int over_ride_off = 11;
+		boolean bell_status = true;
+		boolean over_ride = true;
+		// --------setting bell timings from 1 to 23 hours--------//
+		//----1st bell----//
+		const int h1	=	0;
+		const int m1	=	0;
+		//----2nd bell----//
+		const int h2	=	0;
+		const int m2	=	0;
+		//----3rd bell----//
+		const int h3	=	0;
+		const int m3	=	0;
+		//----4th bell----//
+		const int h4	=	0;
+		const int m4	=	0;
+		//----5th bell----//
+		const int h5	=	0;
+		const int m5	=	0;
+		//----6th bell----//
+		const int h6	=	0;
+		const int m6	=	0;
+		//----7th bell----//
+		const int h7	=	0;
+		const int m7	=	0;
+		//---8th bell----//
+		const int h8	=	0;
+		const int m8	=	0;
+		//----9th bell----//
+		const int h9	=	0;
+		const int m9	=	0;
+		//----1st bell----//
+		const int h10	=	0;
+		const int m10	=	0;
+		//----11th bell----//
+		const int h11	=	0;
+		const int m11	=	0;
+		//----12th bell----//
+		const int h12	=	0;
+		const int m12	=	0;
+		//----12th bell----//
+		const int h12	=	0;
+		const int m12	=	0;
+		//----13th bell----//
+		const int h13	=	0;
+		const int m13	=	0;
+		//----14th bell----//
+		const int h14	=	0;
+		const int m14	=	0;
+		//----15th bell----//
+		const int h15	=	0;
+		const int m15	=	0;
+		//----16th bell----//
+		const int h16	=	0;
+		const int m16	=	0;
+		//----------bell ringing length in seconds-----//
+		const int length	=	3;
+		//----------setup--------------//
+			void setup()
+			{
+				
+				lcd.begin(16,2);
+				pinMode(P,OUTPUT);
+				pinMode(N,OUTPUT);
+				pinMode(bell,OUTPUT);
+				pinMode(over_ride_off,INPUT);
+				digitalWrite(P,HIGH);
+				digitalWrite(N,LOW);
+				digitalWrite(over_ride_off,HIGH);
+				attachInterrupt(0,over_ride,RISING);
+				attachInterrupt(1,bell_setting,RISING);
+				if(EEPROM.read(setting_address)!=1)
+				{
+					bell_setting();
+				}
+							}
+
+							//-------LOOP------//
+				void loop()
+				{
+						tmElements_t tm;
+						lcd.clear();
+						if(RTC.read(tm))
+						{
+							H=tm.Hour;
+							M=tm.Minute;
+							M=tm.Second;
+								lcd.setCursor(0,0);
+								lcd.print("TIME:");
+								lcd.print(tm.Hour);
+								lcd.print(":");
+								lcd.print(tm.Minute);
+								lcd.print(":");
+								lcd.print(tm.Second);
+								lcd.setCursor(0,1);
+								lcd.print(" DATE:");
+								lcd.print(tm.Day);
+								lcd.print("/");
+								lcd.print(tm.Month);
+								lcd.print("/");
+								lcd.print(tmYearToCalendar(tm.Year));
+						}	
+							else 
+							{
+							if(RTC.chipPresent())
+								{
+									lcd.setCursor(0,0);
+									lcd.print("RTC stopped!!!");
+									lcd.setCursor(0,1);
+									lcd.print("Run SetTime code");
+																	}
+
+								else
+
+								{
+									
+											lcd.clear();
+											lcd.setCursor(0,0);
+											lcd.print("Read Error!!!!");
+											lcd.setCursor(0,1);
+											lcd.print("Check Circuitry!!!");
+								}
+
+
+								}
+								if(EEPROM.read(setting_address)==1)
+									{
+									if(H == 0 && M == 0 && S == 0)
+											{
+												digitalWrite(bell,LOW);
+													}
+													// first Period Declaration
+										if( H	== h1 && M == m1 && S==s1)
+											{
+												for(i = 0; i < length;i++)
+														{
+															
+															digitalWrite(bell,HIGH);
+															delay(1000);
+
+
+															}			
+													digitalWrite(bell,LOW);
+													i	=	0;							
+											}
+											// Second Period Declaration
+										if( H	== h2 && M == m2 && S == s2)
+											{
+												for(i = 0; i < length;i++)
+														{
+															
+															digitalWrite(bell,HIGH);
+															delay(1000);
+
+
+															}			
+													digitalWrite(bell,LOW);
+													i	=	0;							
+											}
+											// Third Period Declaration
+										if( H	== h3 && M == m3 && S==s3)
+											{
+												for(i = 0; i < length;i++)
+														{
+															
+															digitalWrite(bell,HIGH);
+															delay(1000);
+
+
+															}			
+													digitalWrite(bell,LOW);
+													i	=	0;							
+											}
+
+											// fourth Period Declaration
+										if( H	== h4 && M == m4 && S==s4)
+											{
+												for(i = 0; i < length;i++)
+														{
+															
+															digitalWrite(bell,HIGH);
+															delay(1000);
+
+
+															}			
+													digitalWrite(bell,LOW);
+													i	=	0;							
+											}
+											// fifth Period Declaration
+										if( H	== h5 && M == m5 && S==s5)
+											{
+												for(i = 0; i < length;i++)
+														{
+															
+															digitalWrite(bell,HIGH);
+															delay(1000);
+
+
+															}			
+													digitalWrite(bell,LOW);
+													i	=	0;							
+											}
+											// sixth Period Declaration
+										if( H	== h6 && M == m6 && S==s6)
+											{
+												for(i = 0; i < length;i++)
+														{
+															
+															digitalWrite(bell,HIGH);
+															delay(1000);
+
+
+															}			
+													digitalWrite(bell,LOW);
+													i	=	0;							
+											}
+											// Seventh Period Declaration
+										if( H	== h7 && M == m7 && S==s7)
+											{
+												for(i = 0; i < length;i++)
+														{
+															
+															digitalWrite(bell,HIGH);
+															delay(1000);
+
+
+															}			
+													digitalWrite(bell,LOW);
+													i	=	0;							
+											}
+											// Eighth Period Declaration
+										if( H	== h8 && M == m8 && S==s8)
+											{
+												for(i = 0; i < length;i++)
+														{
+															
+															digitalWrite(bell,HIGH);
+															delay(1000);
+
+
+															}			
+													digitalWrite(bell,LOW);
+													i	=	0;							
+											}
+											// Nineth Period Declaration
+										if( H	== h9 && M == m9 && S==s9)
+											{
+												for(i = 0; i < length;i++)
+														{
+															
+															digitalWrite(bell,HIGH);
+															delay(1000);
+
+
+															}			
+													digitalWrite(bell,LOW);
+													i	=	0;							
+											}
+											// Tenth Period Declaration
+										if( H	== h10 && M == m10 && S==s10)
+											{
+												for(i = 0; i < length;i++)
+														{
+															
+															digitalWrite(bell,HIGH);
+															delay(1000);
+
+
+															}			
+													digitalWrite(bell,LOW);
+													i	=	0;							
+											}
+											// Eleventh Period Declaration
+										if( H	== h11 && M == m11 && S==s11)
+											{
+												for(i = 0; i < length;i++)
+														{
+															
+															digitalWrite(bell,HIGH);
+															delay(1000);
+
+
+															}			
+													digitalWrite(bell,LOW);
+													i	=	0;							
+											}
+											// Tweleveth Period Declaration
+										if( H	== h12 && M == m12 && S==s12)
+											{
+												for(i = 0; i < length;i++)
+														{
+															
+															digitalWrite(bell,HIGH);
+															delay(1000);
+
+
+															}			
+													digitalWrite(bell,LOW);
+													i	=	0;							
+											}
+											// Thirteenth Period Declaration
+										if( H	== h13 && M == m13 && S==s13)
+											{
+												for(i = 0; i < length;i++)
+														{
+															
+															digitalWrite(bell,HIGH);
+															delay(1000);
+
+
+															}			
+													digitalWrite(bell,LOW);
+													i	=	0;							
+											}
+												
+												// Fourteenth Period Declaration
+										if( H	== h14 && M == m14 && S==s14)
+											{
+												for(i = 0; i < length;i++)
+														{
+															
+															digitalWrite(bell,HIGH);
+															delay(1000);
+
+
+															}			
+													digitalWrite(bell,LOW);
+													i	=	0;							
+											}
+											// fifteenth Period Declaration
+										if( H	== h15 && M == m15 && S==s15)
+											{
+												for(i = 0; i < length;i++)
+														{
+															
+															digitalWrite(bell,HIGH);
+															delay(1000);
+
+
+															}			
+													digitalWrite(bell,LOW);
+													i	=	0;							
+											}
+											// Sixteenth Period Declaration
+										if( H	== h16 && M == m16 && S==s16)
+											{
+												for(i = 0; i < length;i++)
+														{
+															
+															digitalWrite(bell,HIGH);
+															delay(1000);
+
+
+															}			
+													digitalWrite(bell,LOW);
+													i	=	0;							
+											}
+
+										
+											}
+											delay(1000);
+				}
+
+
+									void over_ride()
+									{
+										
+										lcd.clear();
+											while(Over_ride)
+												{
+													digitalWrite(bell,HIGH);
+													lcd.setCursor(0,0);
+													lcd.print(" Press Exit to");
+													lcd.setCursor(0,1);
+													lcd.print("Stop the Bell!!!!");
+														if(digitalRead(over_ride_off) == LOW)
+														{
+															Over_ride = false;
+															digitalWrite(bell,LOW);
+														}
+
+												}
+												Over_ride	= true;	
+										}
+
+											
+											void bell_setting()
+												{
+												setting_value	=	0;
+												EEPROM.write(setting_address,setting_value);
+												lcd.clear();
+												while (bell_status)
+													{
+													
+													lcd.setCursor(0,0);
+													lcd.print("Bell is Disabled");
+													lcd.setCursor(0,1);
+													lcd.print("Press Exit.");
+														if(digitalRead(over_ride_off) == LOW)
+															{
+															bell_status	=	false;
+																}
+
+														}	
+														bell_status = true;
+														setting_value = 1;
+														EEPROM.write(setting_address, setting_value);
+														}
+
+														/// Code by 10 Diploma Batch 2077 B.S
